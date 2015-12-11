@@ -1,5 +1,3 @@
-require 'pry'
-
 class Sleigh
   attr_reader :current_pos, :all_poses
   def initialize
