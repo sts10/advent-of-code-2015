@@ -61,3 +61,9 @@ describe 'Full naughty or nice question' do
     expect(@this_child.nice?).to be(false)
   end
 end
+
+describe 'count from file list' do
+  it 'can count number of nice children from file' do
+    expect(count_nice_children_from_file('./input')).to eq(236)
+  end
+end

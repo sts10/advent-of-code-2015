@@ -1,10 +1,8 @@
-require 'pry'
-
 class Child
   def initialize(string)
-    @string = string
     @array = string.each_char.to_a
   end
+
   def nice?
     self.three_vowels? && self.twice_row? && !self.has_a_bad_combo?
   end
@@ -15,10 +13,6 @@ class Child
 
   def twice_row?
     @array.map.with_index { |l, i| l == @array[i+1] }.any?
-    # @array.any? do |l|
-    #   next_l = @array[@array.index(l)+1]
-    #   next_l && l == next_l
-    # end
   end
 
   def has_a_bad_combo?
@@ -27,12 +21,10 @@ class Child
   end
 end
 
-Child.new("abbcdd").twice_row?
-# file_string = ""
-# File.open(file_location, "r") do |f|
-#   f.each_line do |line|
-#     file_string = file_string + line.to_s
-#   end
-# end
+def count_nice_children_from_file(file_location)
+  File.open(file_location, "r") do |f|
+    f.count { |line| Child.new(line).nice? }
+  end
+end
 
-
+puts count_nice_children_from_file('./input')
