@@ -63,7 +63,27 @@ describe 'Full naughty or nice question' do
 end
 
 describe 'count from file list' do
-  it 'can count number of nice children from file' do
+  xit 'can count number of nice children from file' do
     expect(count_nice_children_from_file('./input')).to eq(236)
+  end
+end
+
+describe 'part 2 naughty or nice' do 
+  it 'knows if a pair of letters is repeated' do
+    @this_child = Child.new('aabcdefgaa')
+    expect(@this_child.pair?).to be(true)
+  end
+  it 'knows if a child has no repeated pairs' do
+    @this_child = Child.new('aaabcdefgh')
+    expect(@this_child.pair?).to be(false)
+  end
+
+  it 'knows if a child has an every other match' do
+    @this_child = Child.new('abcdefeghi')
+    expect(@this_child.every_other?).to be(true)
+  end
+  it 'knows if a child does not have an every other match' do
+    @this_child = Child.new('uurcxstgmygtbstg')
+    expect(@this_child.every_other?).to be(false)
   end
 end
