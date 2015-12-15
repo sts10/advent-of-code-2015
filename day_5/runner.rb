@@ -25,12 +25,11 @@ class Child
     combo_array.any? { |combo| ["ab","cd","pq","xy"].include?(combo.to_s) }
   end
 
-  def pairs?
+  def pairs? # is this just checking for hetero pairs now?
     matched_pairs = []
     combo_array = @array.each_slice(2).to_a
     combo_array.each do |pair|
       if combo_array.count(pair) > 1
-        matched_pairs << pair
         matched_pairs << pair
         combo_array.delete(pair) # remove this matching pair
       end
@@ -38,14 +37,13 @@ class Child
     # binding.pry
       
     offset_combo_array = combo_array.flatten[1..-1].each_slice(2).to_a
-    offset_combo_array.each do |pair|
-      if offset_combo_array.count(pair) > 1
-        matched_pairs << pair
+    (offset_combo_array + combo_array.flatten).each do |pair|
+      if (offset_combo_array + combo_array.flatten).count(pair) > 1
         matched_pairs << pair
       end
     end
-    matched_pairs.count != matched_pairs.uniq.count
-    # matched_pairs.count > 0
+    # matched_pairs.count != matched_pairs.uniq.count
+    matched_pairs.count > 0
   end
 
   def every_other?
