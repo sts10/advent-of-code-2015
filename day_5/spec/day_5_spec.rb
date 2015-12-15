@@ -71,11 +71,11 @@ end
 describe 'part 2 naughty or nice' do 
   it 'knows if a pair of letters is repeated' do
     @this_child = Child.new('aabcdefgaa')
-    expect(@this_child.pair?).to be(true)
+    expect(@this_child.pairs?).to be(true)
   end
   it 'knows if a child has no repeated pairs' do
     @this_child = Child.new('aaabcdefgh')
-    expect(@this_child.pair?).to be(false)
+    expect(@this_child.pairs?).to be(false)
   end
 
   it 'knows if a child has an every other match' do
@@ -85,5 +85,29 @@ describe 'part 2 naughty or nice' do
   it 'knows if a child does not have an every other match' do
     @this_child = Child.new('uurcxstgmygtbstg')
     expect(@this_child.every_other?).to be(false)
+  end
+end
+
+describe 'part 2 full tests' do 
+  it 'knows qjhvhtzxzqqjkmpb is nice' do 
+    @this_child = Child.new('qjhvhtzxzqqjkmpb')
+    expect(@this_child.nice_part2?).to be(true)
+  end
+  it 'knows xxyxx is nice' do
+    @this_child = Child.new('xxyxx')
+    expect(@this_child.nice_part2?).to be(true)
+  end
+  it 'knows azbtzbcb is nice' do
+    @this_child = Child.new('xazbtzbcb')
+    expect(@this_child.pairs?).to be(true)
+  end
+
+  it 'knows uurcxstgmygtbstg is naughty' do
+    @this_child = Child.new('uurcxstgmygtbstg')
+    expect(@this_child.nice_part2?).to be(false)
+  end
+  it 'knows ieodomkazucvgmuy is nice' do
+    @this_child = Child.new('ieodomkazucvgmuy')
+    expect(@this_child.nice_part2?).to be(false)
   end
 end
