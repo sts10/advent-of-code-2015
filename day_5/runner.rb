@@ -25,7 +25,7 @@ class Child
     combo_array.any? { |combo| ["ab","cd","pq","xy"].include?(combo.to_s) }
   end
 
-  def pairs? # is this just checking for hetero pairs now?
+  def pairs? # i hate this I am sorry
     # first, clean triple
     a = []
     @array.each_with_index do |l, i|
