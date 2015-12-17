@@ -27,23 +27,39 @@ class Child
 
   def pairs? # is this just checking for hetero pairs now?
     matched_pairs = []
+    homo_pairs = []
+    # first, clean triple
+    a = @array
+    a.each_with_index do |l, i|
+      if @array[i] == @array[i+1] == @array[i+2]
+        a.delete_at(i+1)
+      end
+    end
+
+
     combo_array = @array.each_slice(2).to_a
     combo_array.each do |pair|
       if combo_array.count(pair) > 1
         matched_pairs << pair
-        combo_array.delete(pair) # remove this matching pair
+        # combo_array.delete(pair) # remove this matching pair
+      end
+      if pair[0] == pair[1]
+        homo_pairs << pair
       end
     end
-    # binding.pry
       
     offset_combo_array = combo_array.flatten[1..-1].each_slice(2).to_a
-    (offset_combo_array + combo_array.flatten).each do |pair|
-      if (offset_combo_array + combo_array.flatten).count(pair) > 1
+    # binding.pry
+    offset_combo_array.each do |pair|
+      if offset_combo_array.count(pair) > 1
         matched_pairs << pair
+      end
+      if pair[0] == pair[1]
+        homo_pairs << pair
       end
     end
     # matched_pairs.count != matched_pairs.uniq.count
-    matched_pairs.count > 0
+    matched_pairs.count > 0 || homo_pairs.count != homo_pairs.uniq.count
   end
 
   def every_other?

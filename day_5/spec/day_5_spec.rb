@@ -68,6 +68,24 @@ describe 'count from file list' do
   end
 end
 
+describe 'the pairs problem' do 
+  it 'finds a hetero on track pair' do
+    expect(Child.new('abcdab').pairs?).to be(true)
+  end
+  it 'finds a hetero off track pair' do
+    expect(Child.new('abcab').pairs?).to be(true)
+  end
+  it 'finds a homo on track pair' do
+    expect(Child.new('aabcaa').pairs?).to be(true)
+  end
+  it 'finds a homo off track pair' do
+    expect(Child.new('aabaa').pairs?).to be(true)
+  end
+  it 'knows a triple character is not a legit pair' do
+    expect(Child.new('aaabcd').pairs?).to be(false)
+  end
+end
+
 describe 'part 2 naughty or nice' do 
   it 'knows if a pair of letters is repeated' do
     @this_child = Child.new('aabcdefgaa')
