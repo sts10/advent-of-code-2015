@@ -26,32 +26,23 @@ class Child
   end
 
   def pairs? # is this just checking for hetero pairs now?
+    # first, clean triple
+    a = []
+    @array.each_with_index do |l, i|
+      if (@array[i] == @array[i+1]) && (@array[i+1] == @array[i+2]) && (@array[i+2] != @array[i+3])
+      else
+        a << l
+      end
+    end
+
     matched_pairs = []
     homo_pairs = []
-    # first, clean triple
-    a = @array
-    a.each_with_index do |l, i|
-      if @array[i] == @array[i+1] == @array[i+2]
-        a.delete_at(i+1)
-      end
-    end
-
-
-    combo_array = @array.each_slice(2).to_a
-    combo_array.each do |pair|
-      if combo_array.count(pair) > 1
-        matched_pairs << pair
-        # combo_array.delete(pair) # remove this matching pair
-      end
-      if pair[0] == pair[1]
-        homo_pairs << pair
-      end
-    end
-      
+    combo_array = a.each_slice(2).to_a
     offset_combo_array = combo_array.flatten[1..-1].each_slice(2).to_a
-    # binding.pry
-    offset_combo_array.each do |pair|
-      if offset_combo_array.count(pair) > 1
+
+    big_array = combo_array + offset_combo_array
+    big_array.each do |pair|
+      if pair.count == 2 && big_array.count(pair) > 1
         matched_pairs << pair
       end
       if pair[0] == pair[1]
@@ -76,5 +67,5 @@ end
 
 # puts count_nice_children_from_file('./input')
 # binding.pry
-c = Child.new("xxyxx")
-puts c.pairs?
+# c = Child.new("xxyxx")
+# puts c.pairs?
