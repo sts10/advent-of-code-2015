@@ -1,4 +1,3 @@
-require 'pry'
 class Child
   def initialize(string)
     @array = string.each_char.to_a
@@ -65,6 +64,3 @@ def count_nice_children_from_file(file_location)
 end
 
 puts "part 2 is #{count_nice_children_from_file('./input')}"
-# binding.pry
-# c = Child.new("xxyxx")
-# puts c.pairs?
