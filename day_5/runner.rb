@@ -65,7 +65,7 @@ def count_nice_children_from_file(file_location)
   end
 end
 
-# puts count_nice_children_from_file('./input')
+puts "part 2 is #{count_nice_children_from_file('./input')}"
 # binding.pry
 # c = Child.new("xxyxx")
 # puts c.pairs?
