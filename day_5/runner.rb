@@ -49,7 +49,6 @@ class Child
         homo_pairs << pair
       end
     end
-    # matched_pairs.count != matched_pairs.uniq.count
     matched_pairs.count > 0 || homo_pairs.count != homo_pairs.uniq.count
   end
 
