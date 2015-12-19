@@ -1,66 +1,97 @@
-class Child
-  def initialize(string)
-    @array = string.each_char.to_a
-  end
+require 'pry'
+@light_board = []
 
-  def nice?
-    self.three_vowels? && self.twice_row? && !self.has_a_bad_combo?
-  end
+1000.times do |i|
+  @light_board << Array.new(1000, 0)
+end
 
-  def nice_part2?
-    self.pairs? && self.every_other?
-  end
-
-  def three_vowels?
-    @array.count { |l| ['a','e','i','o','u'].include?(l) } >= 3
-  end
-
-  def twice_row?
-    @array.map.with_index { |l, i| l == @array[i+1] }.any?
-  end
-
-  def has_a_bad_combo?
-    combo_array = @array.map.with_index { |l, i| l + @array[i+1] if @array[i+1] }
-    combo_array.any? { |combo| ["ab","cd","pq","xy"].include?(combo.to_s) }
-  end
-
-  def pairs? # i hate this I am sorry
-    # first, clean triple
-    a = []
-    @array.each_with_index do |l, i|
-      if (@array[i] == @array[i+1]) && (@array[i+1] == @array[i+2]) && (@array[i+2] != @array[i+3])
-      else
-        a << l
-      end
-    end
-
-    matched_pairs = []
-    homo_pairs = []
-    combo_array = a.each_slice(2).to_a
-    offset_combo_array = combo_array.flatten[1..-1].each_slice(2).to_a
-
-    big_array = combo_array + offset_combo_array
-    big_array.each do |pair|
-      if pair.count == 2 && big_array.count(pair) > 1
-        matched_pairs << pair
-      end
-      if pair[0] == pair[1]
-        homo_pairs << pair
-      end
-    end
-    matched_pairs.count > 0 || homo_pairs.count != homo_pairs.uniq.count
-  end
-
-  def every_other?
-    trio_array = @array.map.with_index { |l,i| l + @array[i+1] + @array[i+2] if @array[i+2] && @array[i+2] }
-    trio_array.any? { |trio| trio[0] == trio[2] if trio }
+def print_board(board)
+  board.each do |row|
+    print row
+    print "\n"
   end
 end
 
-def count_nice_children_from_file(file_location)
-  File.open(file_location, "r") do |f|
-    f.count { |line| Child.new(line).nice_part2? }
+def make_rectangle(height, width, status)
+  board = []
+  height.times do 
+    board << Array.new(width, status)
+  end
+  board
+end
+
+def turn_on(x1,y1,x2,y2)
+  # rectangle = make_rectangle(y2-y1, x2-x1, 1)
+  # rectangle.each_with_index do |row, i|
+  #   @light_board[y1+i..y2+i].each_with_index do |e, j|
+  #     binding.pry
+  #     if x1 < j && j < x2
+  #       e = 1
+  #     end
+  #   end
+  # end
+  @light_board[y1..y2].each do |row|
+    row[x1..x2] = Array.new(x2-x1+1, 1)
   end
 end
 
-puts "part 2 is #{count_nice_children_from_file('./input')}"
+def change_lights(x1,y1,x2,y2,command)
+  @light_board[y1..y2].each_with_index do |row,i|
+    case command
+    when :on
+      row[x1..x2] = Array.new(x2-x1+1, 1)
+    when :off
+      row[x1..x2] = Array.new(x2-x1+1, 0)
+    when :toggle
+      row[x1..x2].each_with_index do |e,j|
+        if e == 1
+          @light_board[i][j] = 0
+        else 
+          @light_board[i][j] = 1
+        end
+      end
+    end
+  end
+end
+
+def read_line(line)
+  if line.include?("on")
+    command = :on
+  elsif line.include?("off")
+    command = :off
+  elsif line.include?("toggle")
+    command = :toggle
+  end
+  c1 = line.split(' ')[-3].split(',')
+  c2 = line.split(' ')[-1].split(',')
+  x1 = c1[0].to_i
+  y1 = c1[1].to_i
+  x2 = c2[0].to_i
+  y2 = c2[1].to_i
+  change_lights(x1,y1,x2,y2,command)
+end
+
+def count_lights_on
+  lights_on = 0
+  @light_board.each do |row|
+    row.each do |e|
+      if e == 1
+        lights_on = lights_on + 1
+      end
+    end
+  end
+  lights_on
+end
+
+# turn_on(2,2,4,7)
+
+File.open('./input', "r") do |f|
+  f.each do |line|
+    read_line(line)
+  end
+end
+
+puts count_lights_on
+# binding.pry
+
+
